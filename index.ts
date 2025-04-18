@@ -96,3 +96,166 @@ console.log(fruits); // Output: ["apple", "banana", "orange"]
 let items: Array<string> = ["apple", "banana", "orange"];
 items.push("grape"); // Adding a new item to the array
 console.log(items); // Output: ["apple", "banana", "orange", "grape"]
+
+// Multi-dimensional Array => You can create multi-dimensional arrays by nesting arrays inside other arrays. For example, a two-dimensional array can be created as follows:
+
+let matrix: number[][] = [
+    [1, 2, 3],
+    [4, 5, 6],
+    [7, 8, 9]
+];
+console.log(matrix); // Output: [[1, 2, 3], [4, 5, 6], [7, 8, 9]]
+
+console.log(matrix[1][2]); // Output: 6 (Accessing the element in the second row and third column)
+
+
+// Objects => Objects are used to store key-value pairs. In TypeScript, you can specify the types of the properties in an object using an interface or a type alias.TypeScript used structured data types to define the shape of an object. You can use interfaces or type aliases to define the structure of an object.
+//TypeScript will give you an error if you try to assign a value of a different type to a property. 
+
+let person: { name: string; age: number; isStudent: boolean } = {
+    name: "Hetu",
+    age: 25,
+    isStudent: true
+};
+console.log(person); // Output: { name: "Hetu", age: 25, isStudent: true }
+
+console.log(person.name); // Output: Hetu
+console.log(person.age); // Output: 25
+console.log(person.isStudent); // Output: true
+
+
+function printPerson(person: { name: string; age: number; isStudent: boolean }) {
+    console.log(`Name: ${person.name}, Age: ${person.age}, Is Student: ${person.isStudent}`);
+}
+printPerson(person); // Output: Name: Hetu, Age: 25, Is Student: true
+
+
+function printUser(): { name: string; age: number; isStudent: boolean } {
+    return { name: "Hetu", age: 25, isStudent: true };
+}
+console.log(printUser()); // Output: { name: "Hetu", age: 25, isStudent: true }
+
+// Type Aliases => Type aliases allow you to create a new name for an existing type. This can be useful for creating more descriptive names for complex types or for creating reusable types.
+
+type Person = {
+    name: string;
+    age: number;
+    isStudent: boolean;
+};
+
+type User = {
+    name: string;
+    age: number;
+    location: string;
+}
+
+const printUserInfo = (user: User) => {
+    console.log(`Name: ${user.name}, Age: ${user.age}, Location: ${user.location}`);
+}
+printUserInfo({ name: "Hetu", age: 25, location: "India" }); // Output: Name: Hetu, Age: 25, Location: India
+
+
+// Optional Properties => You can specify that a property in an object is optional by using the ? operator. This means that the property may or may not be present in the object.
+// TypeScript will not give you an error if the property is missing.
+
+type PersonWithOptionalProperty = {
+    name: string;
+    age: number;
+    isStudent?: boolean; // Optional property
+};
+const personWithOptionalProperty: PersonWithOptionalProperty = {
+    name: "Hetu",
+    age: 25
+};
+console.log(personWithOptionalProperty); // Output: { name: "Hetu", age: 25 }
+
+console.log(personWithOptionalProperty.isStudent); // Output: undefined (property is not present)
+console.log(personWithOptionalProperty.age); // Output: 25 (property is present)
+
+
+// Optional Properties in Function Parameters => You can also use optional properties in function parameters. This allows you to create functions that can accept objects with different shapes.
+
+type UserWithOptionalProperty = {
+    name: string;
+    age: number;
+    location?: string; // Optional property
+};
+const printUserInfoWithOptionalProperty = (user: UserWithOptionalProperty) => {
+    console.log(`Name: ${user.name}, Age: ${user.age}, Location: ${user.location}`);
+}
+printUserInfoWithOptionalProperty({ name: "Hetu", age: 25 }); // Output: Name: Hetu, Age: 25, Location: undefined
+printUserInfoWithOptionalProperty({ name: "Hetu", age: 25, location: "India" }); // Output: Name: Hetu, Age: 25, Location: India 
+
+//Readonly Property => we can not chnage property once it can decided.
+//const user: User = {
+// name: "Hetu",
+// readonly location:"Gujarat" => Now we can't change this property.
+// }; 
+
+//Intersection Types => Intersection types allow you to combine multiple types into one. This can be useful for creating complex types that have properties from multiple types.
+// You can use the & operator to create an intersection type. This means that the variable must have all the properties of both types.
+
+type UserInfo = {
+    name: string;
+    age: number;
+};
+type Address = {
+    city: string;
+    country: string;
+};
+
+type UserWithAddress = UserInfo & Address; // Intersection type
+
+let userDetail: UserWithAddress = {
+    name: "hetu",
+    age: 21,
+    city: "Ahmedabad",
+    country: "India",
+}
+console.log(userDetail);
+
+//Union => Union types allow you to specify that a variable can be one of multiple types. This can be useful for creating flexible APIs or for handling different types of data. 
+// You can use the | operator to create a union type. This means that the variable can be of either type.
+
+type StringOrNumber = string | number; // Union type
+
+let value: StringOrNumber = "Hello";
+
+console.log(value); // Output: Hello
+
+value = 42; // Reassigning to a number
+console.log(value); // Output: 42
+
+let password: string | number = "12345"; // Union type
+
+type UserInfoWithUnion = {
+    first: string;
+    last: string;
+    age: number;
+}
+type UserInfoWithUnion2 = {
+    email: string;
+    password: string;
+}
+
+let userInfo: UserInfoWithUnion | UserInfoWithUnion2 = {
+    first: "Hetu",
+    last: "Patel",
+    age: 21,
+    email: "hetu@gmail.com",
+    password: "12345",
+}
+console.log(userInfo); // Output: { first: "Hetu", last: "Patel", age: 21,  email: 'hetu@gmail.com', password: '12345'}
+
+let items1: (string | number)[] = ["apple", 1, "banana", 2, "orange", 3]; // Array of strings and numbers
+console.log(items1); // Output: ["apple", 1, "banana", 2, "orange", 3]
+
+//Literal Types => Literal types allow you to specify the exact value that a variable can have. This can be useful for creating more specific types or for creating enums.
+// You can use string literals, number literals, or boolean literals to create literal types. This means that the variable can only have the specified value.
+
+type Direction = "up" | "down" | "left" | "right"; // Literal type
+
+let move: Direction = "up"; // Valid assignment
+console.log(move); // Output: up
+ 
+//move = "backward"; // Error: Type '"backward"' is not assignable to type 'Direction'.
