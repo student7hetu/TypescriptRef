@@ -322,7 +322,7 @@ console.log(Wheather.Sunny); // Output: Sunny
 // Classes => Classes are used to create objects with properties and methods. In TypeScript, you can define a class using the class keyword. You can also specify the types of properties and methods in the class using annotations.
 // You can create an instance of a class using the new keyword. This means that you can create multiple objects with the same structure and behavior.
 
-class Person1{
+class Person1 {
     name: string;
     age: number;
 
@@ -354,11 +354,11 @@ class Human {
     private first: string;
     public last: string;
 
-    constructor(first: string, last: string){
+    constructor(first: string, last: string) {
         this.first = first;
         this.last = last;
     }
-} 
+}
 
 let human = new Human('Hetu', 'Patel'); // Creating an instance of the Human class
 console.log(human); // Output: Human { first: "Hetu", last: "Patel" }
@@ -389,6 +389,179 @@ class Person2 {
 }
 
 // Creating an instance of the Person class
-let person2 = new Person2('Hetu');
-console.log(person2.name); // Output: Hetu
+let person2 = new Person2('Alex');
+console.log(person2.name); // Output: Alex
 
+
+// Interfaces => Interfaces are used to define the structure of an object. They allow you to specify the types of properties and methods in an object without creating a concrete implementation. This can be useful for creating reusable types or for defining the shape of data that will be used in your code.
+
+// You can use the interface keyword to create an interface. This means that the interface will have a set of properties and methods that can be implemented by classes or objects.
+
+// TypeScript will give you an error if you try to assign a value that does not match the interface.
+// This means that you can create objects that conform to the interface and use them in your code.
+
+interface Computer {
+    name: string;
+    ram: number;
+    hdd: number;
+}
+
+const computerExample: Computer = {
+    name: 'Dell',
+    ram: 16,
+    hdd: 512,
+}; // Object that conforms to the Computer interface
+console.log(computerExample); // Output: { name: "Dell", ram: 16, hdd: 512 }
+
+interface Movie {
+    readonly name: string;
+    rating: number;
+    genra?: string;
+}
+
+const movie1: Movie = {
+    name: 'Inception',
+    rating: 8.8,
+    genra: 'Sci-Fi',
+};
+console.log(movie1); // Output: { name: "Inception", rating: 8.8, genra: "Sci-Fi" } 
+// movie1.name = "Avatar"; // Error: Cannot assign to 'name' because it is a read-only property.
+
+//Interface for function
+
+interface AddFunction {
+    (a: number, b: number): number;
+}
+const add: AddFunction = (a, b) => a + b;
+const sub: AddFunction = (a, b) => a - b
+
+console.log(add(5, 10)); // Output: 15
+console.log(sub(5, 10)); // Output: -5
+
+interface Person3 {
+    name: string; 
+    age: number;
+    greet(): void; // Method signature
+} 
+function greetPerson(person4: Person3) {
+    console.log(`Hello, my name is ${person4.name} and I am ${person4.age} years old.`);
+}
+const person5: Person3 = {
+    name: 'Hetu',
+    age: 21,
+    greet() {
+        console.log(`Hello, my name is ${this.name} and I am ${this.age} years old.`);
+    },
+};
+greetPerson(person5); // Output: Hello, my name is Hetu and I am 21 years old.
+person5.greet(); // Output: Hello, my name is Hetu and I am 21 years old.
+
+interface Song {
+    songName: string;
+    singer: string;
+    printInfo(): void; // Method signature
+}
+const song1 : Song = {
+    songName: 'Shape of You',
+    singer: 'Ed Sheeran',
+    printInfo() {
+        console.log(`Song Name: ${this.songName}, Singer: ${this.singer}`);
+    },
+};
+song1.printInfo(); // Output: Song Name: Shape of You, Singer: Ed Sheeran
+
+
+interface MovieDetails {
+    readonly name: string; // Readonly property
+    rating: number; // Regular property
+    printMovieInfo(name: string, price: number, rating: number): string | number; // Method signature
+}
+interface MovieGenre extends MovieDetails {
+    genre: string; // Additional property
+}
+const movie: MovieGenre = {
+    name: 'Inception',
+    rating: 8.8,
+    genre: 'Sci-Fi',
+    printMovieInfo(name, price, rating) {
+        return `Movie Name: ${name}, Price: ${price}, Rating: ${rating}`;
+    },
+};
+console.log(movie.printMovieInfo('Inception', 10, 8.8)); // Output: Movie Name: Inception, Price: 10, Rating: 8.8
+console.log(movie.name); // Output: Inception
+
+//Interface for class
+interface Vehicle {
+    start(): void;
+    stop(): void;
+}
+class Car implements Vehicle {
+    start() {
+        console.log('Car started');
+    }
+    stop() {
+        console.log('Car stopped');
+    }
+}
+const car = new Car(); // Creating an instance of the Car class
+car.start(); // Output: Car started
+car.stop(); // Output: Car stopped
+
+//Decration Merging => Declaration merging is a feature in TypeScript that allows you to define multiple declarations for the same name. This can be useful for extending existing types or for creating more flexible APIs.
+// TypeScript will merge the declarations into a single type, allowing you to use the combined properties and methods in your code.
+// This means that you can create multiple declarations for the same name and TypeScript will combine them into a single type.
+
+interface Person6 {
+    name: string;
+    age: number;
+}
+interface Person6 {
+    email: string;
+    phone: string;
+}
+const person6: Person6 = {
+    name: 'Hetu',
+    age: 21,
+    email: 'hetu@gmail.com',
+    phone: '1234567890',
+};
+console.log(person6); // Output: { name: 'Hetu', age: 21, email: 'hetu@gmail.com', phone: '1234567890' }
+
+// The merged interface now has all the properties from both declarations
+
+//Generics => Generics allow you to create reusable components and functions that can work with different types. This can be useful for creating flexible APIs or for handling different types of data without losing type safety.
+// You can use the <T> syntax to create a generic type. This means that the function or class can work with any type specified when it is used.
+// TypeScript will infer the type based on the arguments passed to the function or class.
+// This means that you can create functions and classes that can work with different types without losing type safety.
+
+function printNumber(item: number, defaultValue: number): [number, number] {
+    return [item, defaultValue];
+}
+const num = printNumber(5, 10); // Output: [5, 10]
+console.log(num); // Output: [5, 10]
+
+
+function printString(item: string, defaultValue: string): [string, string] {
+    return [item, defaultValue];
+}
+const str = printString('Hello', 'World'); // Output: ['Hello', 'World']
+console.log(str); // Output: ['Hello', 'World']
+
+
+function printArray<T>(item: T[], defaultValue: T[]): [T[], T[]] {
+    return [item, defaultValue];
+}
+const arr = printArray([1, 2, 3], [4, 5, 6]); // Output: [[1, 2, 3], [4, 5, 6]]
+console.log(arr); // Output: [[1, 2, 3], [4, 5, 6]]
+
+
+function printArray1<T>(item: T[], defaultValue: T[]): [T[], T[]] {
+    return [item, defaultValue];
+}
+const arr1 = printArray1(['apple', 'banana', 'orange'], ['grape', 'kiwi']); // Output: [['apple', 'banana', 'orange'], ['grape', 'kiwi']]
+console.log(arr1); // Output: [['apple', 'banana', 'orange'], ['grape', 'kiwi']]
+
+const arr2 = printArray1([1, 2, 3], [4, 5, 6]); // Output: [[1, 2, 3], [4, 5, 6]]
+console.log(arr2); // Output: [[1, 2, 3], [4, 5, 6]]
+
+ 
